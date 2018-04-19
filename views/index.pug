@@ -1,0 +1,8 @@
+extends layout
+
+block content
+
+   h1 #{titles}
+   ul
+   each anything, i in articles
+     li= anything.title

@@ -172,6 +172,21 @@ app.get('/article/edit/:id' , function (req, res) {
 
 
 
+// Delete Request
+
+
+app.delete('/article/:id' , function(req, res){
+
+  let query = {_id:req.params.id}
+
+  Article.remove(query, function (err){
+
+    if(err) {
+      console.log(err)
+    }
+    res.send('Success');
+  });
+})
 
 //Start Server and enter message to acknowledge connection
 app.listen(3000 , function(){

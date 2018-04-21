@@ -4,5 +4,6 @@ block content
 
    h1 #{titles}
    ul
-   each anything, i in articles
-     li= anything.title
+   each article, i in articles
+     li.list-group-item
+        a(href='/article/'+article._id)=article.title

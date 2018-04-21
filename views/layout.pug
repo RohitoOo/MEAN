@@ -2,10 +2,39 @@ doctype html
 html
  head
   title Knowledgebase
+  link(rel="stylesheet" , href="/bower_components/bootstrap/dist/css/bootstrap.css")
+  link(rel="stylesheet" , href="/css/style.css")  
  body
-  p Yoo! Wassup from Mr. Layout ;)
-  block content
-  br
-  hr
-  footer
-    p Rohito.com &reg; 2018
+   nav.navbar.navbar-expand-md.navbar-dark.bg-dark.static-top
+    .container
+      a.navbar-brand(href='/') Mean Stack
+      button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarsExampleDefault', aria-controls='navbarsExampleDefault', aria-expanded='false', aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+      #navbarsExampleDefault.collapse.navbar-collapse
+        ul.navbar-nav.mr-auto
+          li.nav-item.active
+            a.nav-link(href='/')
+              | Home 
+              span.sr-only (current)
+          li.nav-item
+            a.nav-link(href='/articles/add') Add Article
+            <li class="nav-item dropdown float-right">
+              <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+              <div class="dropdown-menu" aria-labelledby="dropdown01">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li>  
+
+   .container
+    block content
+     
+    br
+    hr
+    footer
+      p Rohito.com &reg; 2018
+   script(src='/bower_components/bootstrap/assets/js/vendor/jquery-slim.min.js')        
+   script(src='/bower_components/bootstrap/dist/js/bootstrap.js')
+   script(src="/js/main.js")
+        

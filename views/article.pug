@@ -3,8 +3,8 @@ extends layout
 block content
   
    h1 #{article.title}
-   h4 Content: #{article.body}
-   h4=  article.author
+   h6 Content: #{article.body}
+   p Written by #{article.author}
      hr
    a.btn.btn-primary(href='/articles/edit/'+article._id) Edit
    a.btn.btn-danger.delete-article(href='#', data-id=article._id) Delete

@@ -1,15 +1,19 @@
 extends layout
 
 block content
- h1 A Bongo #{title}
+ h1 Add An #{title}
  form(method='POST', action='/articles/add')
+      br
       #form-group
         label Title:
-        input.form-control(name='title', type='text' )
+        input.form-control(name='title', type='text')
+      br
+      #form-group
+          label Body:
+          textarea.form-control(name='body')
+      br
       #form-group
         label Author:
         input.form-control(name='author', type='text')
-      #form-group
-        label Body:
-        textarea.form-control(name='body')
+      br    
       input.btn.btn-primary(type='submit',value='Submit')

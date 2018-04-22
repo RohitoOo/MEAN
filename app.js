@@ -116,7 +116,12 @@ if(err){
 //Route Files
 
 let articles = require('./routes/articles');
-app.use('/articles' , articles)
+let users = require('./routes/users');
+
+// any requests with /articles gets directed to the file articles.js
+
+app.use('/articles' , articles);
+app.use('/users' , users);
 
 
 //Start Server and enter message to acknowledge connection

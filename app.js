@@ -2,8 +2,14 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser')
+const expressValidator = require('express-validator');
+const flash = require('connect-flash');
+const session = require('express-session')
+
 mongoose.connect('mongodb://localhost/nodekb');
 let db = mongoose.connection;
+
+
 
 // Check connection
 
@@ -66,9 +72,30 @@ app.use(express.static(path.join(__dirname, 'public')));
 // ];
 
 
+//Express session Middleware
+
+app.use(session({
+  secret: 'keyboard cat',
+  resave: true,
+  saveUninitialized: true,
+}))
+
+
+// Express Message Flash Middleware
+
+app.use(require('connect-flash')());
+app.use(function (req, res, next) {
+  res.locals.messages = require('express-messages')(req, res);
+  next();
+});
+
+
+// Express Validator Middleware has been updated and is no longer required.
+
+
+app.use(expressValidator());
+
 // Home Route
-
-
 
 app.get('/' , function (req,res){
 
@@ -86,107 +113,11 @@ if(err){
 });
 });
 
+//Route Files
 
-// Route for Single article
+let articles = require('./routes/articles');
+app.use('/articles' , articles)
 
-app.get('/article/:id' , function (req, res) {
-
-  Article.findById(req.params.id, function (err , article ){
-
-    res.render('article' , {
-      article: article
-  }) }) })
-
-
-
-
-// Add Route
-
-app.get('/articles/add' , function(req,res){
-
-  res.render('add' , {
-    title: 'Article'
-
-})
-
-})
-
-
-
-// Create Submit post route
-app.post('/articles/add' , function (req, res) {
-
-let article = new Article();
-
-article.title = req.body.title;
-article.body = req.body.body;
-article.author = req.body.author;
-
-article.save(function(err){
-  if(err){
-    console.log(err);
-    return;
-  }else{
-    res.redirect('/')
-  }
-})
-});
-
-
-// Create Updated after editing Submit post route
-app.post('/articles/edit/:id' , function (req, res) {
-
-let article = {};
-
-article.title = req.body.title;
-article.body = req.body.body;
-article.author = req.body.author;
-
-
-let query = {_id:req.params.id }
-
-Article.update(query, article , function(err){
-  if(err){
-    console.log(err);
-    return;
-  }else{
-    res.redirect('/')
-  }
-})
-});
-
-
-
-
-
-// Route for Edit article
-
-app.get('/article/edit/:id' , function (req, res) {
-
-  Article.findById(req.params.id, function (err , article ){
-
-    res.render('edit_article' , {
-      title: 'Edit_Title',
-      article: article
-  }) }) })
-
-
-
-// Delete Request
-
-
-app.delete('/article/:id' , function(req, res){
-
-  let query = {_id:req.params.id}
-
-  Article.remove(query, function (err){
-
-    if(err) {
-      console.log(err)
-    }
-    res.send('Success');
-  });
-})
 
 //Start Server and enter message to acknowledge connection
 app.listen(3000 , function(){

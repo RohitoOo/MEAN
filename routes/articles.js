@@ -1,19 +1,24 @@
 const express = require('express');
 const router = express.Router();
 
-// Bring In Models
+
+
+
+
+
+// Bring In Article Models
 
 let Article = require('../models/article') ;
 
 
+// Bring In User Models
 
-
-
+let User = require('../models/user') ;
 
 
 // Add Route
 
-router.get('/add' , function(req,res){
+router.get('/add' , ensureAuthenticated, function(req,res){
 
   res.render('add' , {
     title: 'Article'
@@ -29,7 +34,7 @@ router.post('/add' , function (req, res) {
 
   req.checkBody('title' , 'Title Is Required').notEmpty();
   req.checkBody('body' , 'Body Is Required').notEmpty();
-  req.checkBody('author' , 'Author Is Required').notEmpty();
+  // req.checkBody('author' , 'Author Is Required').notEmpty();
 
 let errors = req.validationErrors();
 
@@ -46,7 +51,7 @@ else{
 
   article.title = req.body.title;
   article.body = req.body.body;
-  article.author = req.body.author;
+  article.author = req.user._id;
 
   article.save(function(err){
     if(err){
@@ -121,11 +126,30 @@ router.get('/:id' , function (req, res) {
 
   Article.findById(req.params.id, function (err , article ){
 
-    res.render('article' , {
-      article: article
-  }) }) })
+    User.findById(article.author , function (err, user){
 
+      res.render('article' , {
+        article: article,
+        author: User.name
+    });
 
+  });
+
+   }) })
+
+// Access Control
+
+function ensureAuthenticated(req, res, next ){
+
+  if(req.isAuthenticated()){
+
+    return next();
+
+  } else {
+    req.flash('danger', 'Please Login ');
+    res.redirect('/users/login');
+  }
+}
 
 
 module.exports = router ;

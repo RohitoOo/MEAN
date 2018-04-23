@@ -11,33 +11,30 @@ html
       button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarsExampleDefault', aria-controls='navbarsExampleDefault', aria-expanded='false', aria-label='Toggle navigation')
         span.navbar-toggler-icon
       #navbarsExampleDefault.collapse.navbar-collapse
-        ul.navbar-nav.mr-auto
+        ul.navbar-nav
           li.nav-item.active
             a.nav-link(href='/')
               | Home 
               span.sr-only (current)
           li.nav-item
             a.nav-link(href='/articles/add') Add Article
-            <li class="nav-item dropdown float-right">
-              <a class="nav-link dropdown-toggle" href="" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Jquery Test</a>
-              <div class="dropdown-menu" aria-labelledby="dropdown01">
-                <a class="dropdown-item" href="https://www.instagram.com/rrrohito" , target='_blank' >Jquery Test</a>
-                <a class="dropdown-item" href="https://www.instagram.com/rrrohito" , target='_blank'>Another Jquery Test</a>
-                <a class="dropdown-item" href="https://www.instagram.com/rrrohito" , target='_blank'>Jquery Works</a>
-              </div>
-            </li>  
-      ul.nav.navbar-nav
-        li.nav-item
-          a(href='/users/register') Register
-        li.nav-item
-          a(href='/users/login') Login  
+        ul.nav.navbar-nav
+      if user 
+            li.list-unstyled
+              a(href='/users/logout') Logout 
+      else   
+             
+            li.list-unstyled
+              a(href='/users/register') Register &nbsp
+            li.list-unstyled
+              a(href='/users/login')  Login  
    .container
     != messages('message', locals)
     if errors
       each error, i in errors
         div(class='alert alert-danger')  #{error.msg}
     block content
-     
+      
     br
     hr
     footer

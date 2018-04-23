@@ -5,8 +5,10 @@ const bodyParser = require('body-parser')
 const expressValidator = require('express-validator');
 const flash = require('connect-flash');
 const session = require('express-session')
+const passport = require('passport')
+const config = require('./config/database')
 
-mongoose.connect('mongodb://localhost/nodekb');
+mongoose.connect(config.database);
 let db = mongoose.connection;
 
 
@@ -38,7 +40,7 @@ let Article = require('./models/article') ;
 app.set('views' , path.join(__dirname, 'views'));
 app.set('view engine' , 'pug');
 
-// BODY Parse required Middle ware (github)
+// BODY Parse required Middle ware ( code from github)
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
@@ -94,6 +96,25 @@ app.use(function (req, res, next) {
 
 
 app.use(expressValidator());
+
+
+//Passport config
+
+require('./config/passport')(passport);
+
+//Passport Middleware
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+app.get('*' , function(req, res, next){
+
+res.locals.user = req.user || null ;
+next();
+
+});
+
 
 // Home Route
 
